@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="contenido">
+        <h1>Lista de Tareas</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Titulo</label>
+              {{ form.titulo }}
+            </div>
+            <div class="mb-3 form-check">
+              {{ form.completada }}
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <ul>
+            {% for tarea in tareas %}
+                <li>
+                    {% if tarea.completada %}
+                        <s>{{ tarea.titulo }}</s>
+                    {% else %}
+                        {{ tarea.titulo }}
+                    {% endif %}
+                    <a href="{% url 'eliminar_tarea' tarea.id %}">Eliminar</a>
+                    <a href="{% url 'completar_tarea' tarea.id %}">Completar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+    
+{% block css %} 
+    <style>
+        body {
+            background-color: pink;
+        }
+    </style>
+{% endblock %}
